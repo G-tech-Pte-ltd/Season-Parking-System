@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import Navbar from "./components/NavBar";
+import AboutPage from "./components/AboutPage";
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/season/new" element={<PlaceholderPage title="New Season" />} />
             <Route path="/reports/revenue" element={<PlaceholderPage title="Revenue Report" />} />
             <Route path="/system/manage-users" element={<PlaceholderPage title="Manage Users" />} />
+            <Route path="/about" element={<AboutPage />} />
           </Routes>
         </main>
 

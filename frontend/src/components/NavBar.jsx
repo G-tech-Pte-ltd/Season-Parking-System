@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ChevronDown, Home, Car, Calendar, CreditCard, 
-  Globe, BarChart3, ClipboardList, Settings, Info, LogOut
+  Globe, BarChart3, ClipboardList, Settings, Info, LogOut 
 } from "lucide-react";
 
 const navConfig = [
   { label: "Home", icon: <Home size={16} />, path: "/" },
-  { label: "Carpark", icon: <Car size={16} />, children: ["Carpark Details"] },
+  { 
+    label: "Carpark", 
+    icon: <Car size={16} />, 
+    children: ["Carpark Details"] 
+  },
   { 
     label: "Season", 
     icon: <Calendar size={16} />, 
@@ -17,8 +22,16 @@ const navConfig = [
       "Season Groups", "Season Master", "Season History"
     ] 
   },
-  { label: "Giro", icon: <CreditCard size={16} />, children: ["Approve/Reject", "Renewal", "Update DDA List", "View History"] },
-  { label: "Website", icon: <Globe size={16} />, children: ["New Account Application", "New Season Application", "Payment Report"] },
+  { 
+    label: "Giro", 
+    icon: <CreditCard size={16} />, 
+    children: ["Approve/Reject", "Renewal", "Update DDA List", "View History"] 
+  },
+  { 
+    label: "Website", 
+    icon: <Globe size={16} />, 
+    children: ["New Account Application", "New Season Application", "Payment Report"] 
+  },
   { 
     label: "Reports", 
     icon: <BarChart3 size={16} />, 
@@ -48,27 +61,30 @@ const navConfig = [
   { label: "About", icon: <Info size={16} />, path: "/about" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ onLogout }) => {
   const [activeMenu, setActiveMenu] = useState(null);
+  const location = useLocation();
 
   return (
-    <nav className="relative z-50 flex items-center justify-between px-6 py-3 bg-[#0a0a0c]/80 backdrop-blur-md border-b border-white/10">
+    <nav className="relative z-50 flex items-center justify-between px-6 py-3 bg-[#0a0a0c]/90 backdrop-blur-xl border-b border-white/10">
       {/* Brand / Logo */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 text-white font-bold text-xs shadow-lg shadow-purple-500/20">
+      <Link to="/" className="flex items-center gap-3 group">
+        <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 text-white font-bold text-xs shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
           G.t
         </div>
         <div className="leading-none">
           <h1 className="text-white font-bold tracking-tight text-sm">G.tech</h1>
           <p className="text-[10px] text-purple-400 font-mono tracking-widest uppercase">Season Parking</p>
         </div>
-      </div>
+      </Link>
 
-      {/* Nav Links */}
+      {/* Main Navigation Links */}
       <ul className="flex items-center gap-1">
         {navConfig.map((item, idx) => {
-          const isLargeMenu = item.children && item.children.length > 6;
-          
+          const hasChildren = !!item.children;
+          const isLargeMenu = hasChildren && item.children.length > 6;
+          const isActive = location.pathname === item.path;
+
           return (
             <li 
               key={idx} 
@@ -76,41 +92,57 @@ const Navbar = () => {
               onMouseEnter={() => setActiveMenu(item.label)}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              <button className={`
-                flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-all
-                ${activeMenu === item.label ? 'bg-white/5 text-purple-400' : 'text-slate-400 hover:text-slate-100'}
-              `}>
-                {item.icon}
-                <span>{item.label}</span>
-                {item.children && (
+              {/* If item has a path (Home/About), use Link. Otherwise use button for dropdown */}
+              {!hasChildren ? (
+                <Link 
+                  to={item.path} 
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-all
+                    ${isActive ? 'text-purple-400 bg-purple-500/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}
+                  `}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </Link>
+              ) : (
+                <button className={`
+                  flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-all
+                  ${activeMenu === item.label ? 'bg-white/5 text-purple-400' : 'text-slate-400 hover:text-slate-100'}
+                `}>
+                  {item.icon}
+                  <span>{item.label}</span>
                   <ChevronDown 
                     size={12} 
                     className={`transition-transform duration-200 ${activeMenu === item.label ? 'rotate-180' : ''}`} 
                   />
-                )}
-              </button>
+                </button>
+              )}
 
+              {/* Dropdown Menu logic */}
               <AnimatePresence>
-                {item.children && activeMenu === item.label && (
+                {hasChildren && activeMenu === item.label && (
                   <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                    transition={{ duration: 0.15 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
                     className={`
-                      absolute top-full left-0 mt-1 bg-[#121217] border border-white/10 rounded-xl shadow-2xl p-2
-                      ${isLargeMenu ? 'w-[450px]' : 'w-56'}
+                      absolute top-full left-0 mt-1 bg-[#0f1117] border border-white/10 rounded-xl shadow-2xl p-2
+                      ${isLargeMenu ? 'w-[480px]' : 'w-56'}
                     `}
                   >
                     <div className={`grid ${isLargeMenu ? 'grid-cols-2' : 'grid-cols-1'} gap-1`}>
                       {item.children.map((child, cIdx) => (
-                        <button 
+                        <Link 
                           key={cIdx}
+                          // Generates a path: /season/new-season
+                          to={`/${item.label.toLowerCase()}/${child.toLowerCase().replace(/\s+/g, '-')}`}
+                          onClick={() => setActiveMenu(null)}
                           className="group flex items-center justify-between w-full text-left px-3 py-2 text-[12px] text-slate-400 hover:text-white hover:bg-purple-600/10 rounded-lg transition-all"
                         >
                           <span className="truncate">{child}</span>
                           <div className="w-1 h-1 rounded-full bg-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </button>
+                        </Link>
                       ))}
                     </div>
                   </motion.div>
@@ -121,10 +153,13 @@ const Navbar = () => {
         })}
       </ul>
 
-      {/* Action Area */}
+      {/* Logout / Exit Area */}
       <div className="flex items-center gap-3">
-        <div className="h-6 w-px bg-white/10" />
-        <button className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-500 hover:text-red-400 transition-colors">
+        <div className="h-6 w-px bg-white/10 mx-1" />
+        <button 
+          onClick={onLogout}
+          className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-500 hover:text-red-400 transition-colors"
+        >
           <LogOut size={14} />
           <span>Exit</span>
         </button>
