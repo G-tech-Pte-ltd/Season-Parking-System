@@ -8,14 +8,11 @@ const stats = [
   { label: "System Uptime", value: "99.98%", icon: <Cpu size={20} /> },
 ];
 
-// Animation Variants for staggering children
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
+    transition: { staggerChildren: 0.15 },
   },
 };
 
@@ -30,24 +27,28 @@ const AboutPage = () => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="p-8 max-w-6xl mx-auto text-slate-300 font-poppins"
+      className="p-8 max-w-6xl mx-auto text-slate-600 font-poppins relative"
     >
+      {/* Background soft glow elements */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-pink-100/50 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-50/50 rounded-full blur-3xl -z-10" />
+
       {/* Header Section */}
       <motion.div 
         variants={itemVariants}
-        className="mb-12 border-b border-white/10 pb-8"
+        className="mb-12 border-b border-pink-100 pb-8"
       >
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-5 mb-4">
           <motion.div 
-            whileHover={{ rotate: 360 }}
+            whileHover={{ rotate: 360, scale: 1.1 }}
             transition={{ duration: 0.7 }}
-            className="p-3 bg-purple-600/20 text-purple-400 rounded-2xl border border-purple-500/30"
+            className="p-4 bg-pink-500 text-white rounded-2xl shadow-lg shadow-pink-200"
           >
             <Info size={32} />
           </motion.div>
           <div>
-            <h1 className="text-4xl font-black text-white tracking-tight">System Information</h1>
-            <p className="text-slate-500 font-mono text-sm uppercase tracking-widest">Version 4.0.2 Build 2025-Alpha</p>
+            <h1 className="text-4xl font-black text-slate-800 tracking-tight">System Information</h1>
+            <p className="text-pink-500 font-mono text-sm uppercase tracking-widest font-bold">Version 4.0.2 Build 2025-Alpha</p>
           </div>
         </div>
       </motion.div>
@@ -61,19 +62,19 @@ const AboutPage = () => {
           <motion.div
             key={i}
             variants={itemVariants}
-            whileHover={{ y: -10, borderColor: "rgba(168, 85, 247, 0.5)" }}
-            className="bg-gray-900/40 backdrop-blur-md border border-white/5 p-6 rounded-3xl text-center group transition-colors shadow-xl"
+            whileHover={{ y: -10, borderColor: "#fbcfe8" }}
+            className="bg-white border border-pink-50 p-8 rounded-[2rem] text-center group transition-all shadow-sm hover:shadow-xl hover:shadow-pink-100/50"
           >
             <motion.div 
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.5 + (i * 0.1), type: "spring" }}
-              className="inline-flex p-3 bg-white/5 rounded-full text-purple-400 mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors"
+              className="inline-flex p-4 bg-pink-50 rounded-2xl text-pink-500 mb-4 group-hover:bg-pink-500 group-hover:text-white transition-colors"
             >
               {stat.icon}
             </motion.div>
-            <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-            <div className="text-xs uppercase tracking-tighter text-slate-500">{stat.label}</div>
+            <div className="text-3xl font-bold text-slate-800 mb-1">{stat.value}</div>
+            <div className="text-[10px] uppercase font-bold tracking-widest text-slate-400">{stat.label}</div>
           </motion.div>
         ))}
       </motion.div>
@@ -83,25 +84,25 @@ const AboutPage = () => {
         <motion.div 
           variants={itemVariants}
           whileHover={{ scale: 1.01 }}
-          className="bg-gradient-to-br from-gray-900 to-black border border-white/10 p-8 rounded-3xl shadow-2xl"
+          className="bg-white border border-pink-50 p-8 rounded-[2rem] shadow-sm"
         >
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <Shield className="text-purple-400" size={20} />
+          <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <Shield className="text-pink-500" size={20} />
             The G.tech Core
           </h2>
-          <p className="text-slate-400 leading-relaxed text-sm mb-4">
+          <p className="text-slate-500 leading-relaxed text-sm mb-6">
             The G.tech Season Parking System is an enterprise-grade infrastructure management tool designed to streamline urban parking logistics. Built on a modular microservices architecture, it provides real-time data synchronization across hundreds of carpark nodes.
           </p>
-          <ul className="space-y-3">
+          <ul className="space-y-4">
             {['Automated GIRO processing', 'Smart Vehicle recognition', 'Encrypted Revenue Reporting'].map((feature, i) => (
               <motion.li 
                 key={i} 
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1 + (i * 0.1) }}
-                className="flex items-center gap-2 text-xs text-slate-300"
+                className="flex items-center gap-3 text-xs font-semibold text-slate-600"
               >
-                <div className="w-1.5 h-1.5 bg-purple-500 rounded-full shadow-[0_0_8px_#a855f7]" />
+                <div className="w-2 h-2 bg-pink-500 rounded-full shadow-[0_0_8px_rgba(236,72,153,0.4)]" />
                 {feature}
               </motion.li>
             ))}
@@ -111,30 +112,34 @@ const AboutPage = () => {
         {/* Support & Docs */}
         <motion.div 
           variants={itemVariants}
-          className="bg-gray-900/20 border border-dashed border-white/10 p-8 rounded-3xl"
+          className="bg-pink-50/30 border-2 border-dashed border-pink-100 p-8 rounded-[2rem]"
         >
-          <h2 className="text-xl font-bold text-white mb-6 tracking-tight">Technical Support</h2>
+          <h2 className="text-xl font-bold text-slate-800 mb-6 tracking-tight">Technical Support</h2>
           <div className="space-y-4">
             <motion.a 
-              whileHover={{ x: 10, backgroundColor: "rgba(255,255,255,0.08)" }}
+              whileHover={{ x: 10, backgroundColor: "#ffffff" }}
               href="mailto:support@gtech.sys" 
-              className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl transition-all group"
+              className="flex items-center gap-4 p-5 bg-white shadow-sm border border-pink-50 rounded-2xl transition-all group"
             >
-              <Mail className="text-purple-400" size={20} />
+              <div className="p-2 bg-pink-100 rounded-lg text-pink-600 group-hover:bg-pink-500 group-hover:text-white transition-colors">
+                <Mail size={20} />
+              </div>
               <div>
-                <div className="text-sm font-bold text-white">System Admin Email</div>
-                <div className="text-xs text-slate-500 tracking-tight">support@gtech.sys</div>
+                <div className="text-sm font-bold text-slate-800">System Admin Email</div>
+                <div className="text-xs text-slate-400 font-mono">support@gtech.sys</div>
               </div>
             </motion.a>
 
             <motion.div 
-              whileHover={{ x: 10, backgroundColor: "rgba(255,255,255,0.08)" }}
-              className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl transition-all group cursor-pointer"
+              whileHover={{ x: 10, backgroundColor: "#ffffff" }}
+              className="flex items-center gap-4 p-5 bg-white shadow-sm border border-pink-50 rounded-2xl transition-all group cursor-pointer"
             >
-              <Globe className="text-blue-400" size={20} />
+              <div className="p-2 bg-blue-50 rounded-lg text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                <Globe size={20} />
+              </div>
               <div>
-                <div className="text-sm font-bold text-white">Documentation Wiki</div>
-                <div className="text-xs text-slate-500 tracking-tight">docs.internal.gtech.com</div>
+                <div className="text-sm font-bold text-slate-800">Documentation Wiki</div>
+                <div className="text-xs text-slate-400 font-mono">docs.internal.gtech.com</div>
               </div>
             </motion.div>
           </div>
@@ -144,10 +149,10 @@ const AboutPage = () => {
       {/* Credits */}
       <motion.div 
         variants={itemVariants}
-        className="mt-16 text-center opacity-30 grayscale hover:grayscale-0 transition-all cursor-default"
+        className="mt-16 text-center opacity-40 hover:opacity-100 transition-all cursor-default"
       >
-        <p className="text-[10px] font-mono tracking-[0.4em] uppercase">
-          Built with Excellence by the <span className="text-purple-500">G.tech Engineering Team</span>
+        <p className="text-[10px] font-mono tracking-[0.4em] uppercase font-bold text-slate-400">
+          Built with Excellence by the <span className="text-pink-500">G.tech Engineering Team</span>
         </p>
       </motion.div>
     </motion.div>

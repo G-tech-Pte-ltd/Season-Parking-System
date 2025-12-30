@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import Navbar from "./components/NavBar";
 import AboutPage from "./components/AboutPage";
+import CarparkDetails from "./components/CarParkDetails";
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => (
-  <div className="p-20 text-white text-2xl font-mono">{title} Page Coming Soon...</div>
+  <div className="p-20 text-slate-800 text-2xl font-mono">{title} Page Coming Soon...</div>
 );
 
 function App() {
@@ -18,13 +19,19 @@ function App() {
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-[#030712]">
+      {/* 2. Added 'w-full' to ensure the background fills the entire screen */}
+      <div className="flex flex-col min-h-screen w-full bg-slate-50 text-slate-800 font-poppins relative overflow-hidden">
+        
+        {/* The Navbar stays fixed at the top */}
         <Navbar />
 
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<HomePage user={user} />} />
-            {/* You can add specific routes for your menu items here */}
+            
+            {/* 3. New Carpark Details Route */}
+            <Route path="/carpark/carpark-details" element={<CarparkDetails />} />
+            
             <Route path="/season/new" element={<PlaceholderPage title="New Season" />} />
             <Route path="/reports/revenue" element={<PlaceholderPage title="Revenue Report" />} />
             <Route path="/system/manage-users" element={<PlaceholderPage title="Manage Users" />} />
@@ -32,9 +39,9 @@ function App() {
           </Routes>
         </main>
 
-        <footer className="px-8 py-3 border-t border-white/5 bg-black/20 text-[10px] text-slate-600 font-mono flex justify-between">
+        <footer className="px-8 py-3 border-t border-slate-200 bg-white/50 text-[10px] text-slate-400 font-mono flex justify-between relative z-10">
           <span>ENCRYPTED_CONNECTION: ACTIVE</span>
-          <span>© 2025 PARK_SYS CORE v4.0.2</span>
+          <span>© 2025 G.TECH PARK_SYS v4.0.2</span>
         </footer>
       </div>
     </Router>
