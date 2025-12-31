@@ -6,6 +6,7 @@ import AboutPage from "./components/AboutPage";
 import CarparkDetails from "./components/CarParkDetails";
 import NewSeason from "./components/NewSeason";
 import EditSeasonPage from "./components/EditSeasonPage";
+import RenewalSeason from "./components/RenewalSeason";
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => (
@@ -36,8 +37,8 @@ function App() {
             
             {/* Season Section - Align with Navbar Logic */}
             <Route path="/season/new" element={<NewSeason />} />
-            <Route path="/season/edit" element={<EditSeasonPage />} /> {/* Corrected Component */}
-            <Route path="/season/renewal" element={<PlaceholderPage title="Season Renewal" />} />
+            <Route path="/season/edit" element={<EditSeasonPage />} />
+            <Route path="/season/renewal" element={<RenewalSeason />} />
             <Route path="/season/multi-renewal" element={<PlaceholderPage title="Multi-Renewal" />} />
             
             {/* System Section */}
