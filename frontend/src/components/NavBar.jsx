@@ -10,57 +10,90 @@ const Navbar = ({ onLogout }) => {
   const [activeMenu, setActiveMenu] = useState(null);
   const location = useLocation();
 
-  // Navigation Data Structure
+  // Navigation Data Structure with Explicit Paths
   const navConfig = [
     { label: "Home", icon: <Home size={16} />, path: "/" },
     { 
       label: "Carpark", 
       icon: <Car size={16} />, 
-      children: ["Carpark Details"] 
+      children: [
+        { label: "Carpark Details", path: "/carpark/carpark-details" }
+      ] 
     },
     { 
       label: "Season", 
       icon: <Calendar size={16} />, 
       children: [
-        "New", "Edit", "Renewal", "Multi-renewal", "Change Vehicle", 
-        "Change Vehicle (Schedule)", "Terminate", "Expiring Season", 
-        "Season Groups", "Season Master", "Season History"
+        { label: "New", path: "/season/new" },
+        { label: "Edit", path: "/season/edit" },
+        { label: "Renewal", path: "/season/renewal" },
+        { label: "Multi-renewal", path: "/season/multi-renewal" },
+        { label: "Change Vehicle", path: "/season/change-vehicle" },
+        { label: "Change Vehicle (Schedule)", path: "/season/change-vehicle-schedule" },
+        { label: "Terminate", path: "/season/terminate" },
+        { label: "Expiring Season", path: "/season/expiring" },
+        { label: "Season Groups", path: "/season/groups" },
+        { label: "Season Master", path: "/season/master" },
+        { label: "Season History", path: "/season/history" }
       ] 
     },
     { 
       label: "Giro", 
       icon: <CreditCard size={16} />, 
-      children: ["Approve/Reject", "Renewal", "Update DDA List", "View History"] 
+      children: [
+        { label: "Approve/Reject", path: "/giro/approve-reject" },
+        { label: "Renewal", path: "/giro/renewal" },
+        { label: "Update DDA List", path: "/giro/update-dda" },
+        { label: "View History", path: "/giro/history" }
+      ] 
     },
     { 
       label: "Website", 
       icon: <Globe size={16} />, 
-      children: ["New Account Application", "New Season Application", "Payment Report"] 
+      children: [
+        { label: "New Account Application", path: "/website/account-app" },
+        { label: "New Season Application", path: "/website/season-app" },
+        { label: "Payment Report", path: "/website/payment-report" }
+      ] 
     },
     { 
       label: "Reports", 
       icon: <BarChart3 size={16} />, 
       children: [
-        "Revenue Collection", "Review Revenue Collection", "HDB Report", 
-        "Mapletree Report", "New Season Report", "Season Allocation", 
-        "Season Refund", "Yearly Season Breakdown", "Change Holder Type History", 
-        "Change Vehicle History"
+        { label: "Revenue Collection", path: "/reports/revenue" },
+        { label: "Review Revenue Collection", path: "/reports/review-revenue" },
+        { label: "HDB Report", path: "/reports/hdb" },
+        { label: "Mapletree Report", path: "/reports/mapletree" },
+        { label: "New Season Report", path: "/reports/new-season" },
+        { label: "Season Allocation", path: "/reports/allocation" },
+        { label: "Season Refund", path: "/reports/refund" },
+        { label: "Yearly Breakdown", path: "/reports/yearly-breakdown" },
+        { label: "Holder Type History", path: "/reports/holder-history" },
+        { label: "Vehicle History", path: "/reports/vehicle-history" }
       ] 
     },
     { 
       label: "Tasks", 
       icon: <ClipboardList size={16} />, 
       children: [
-        "Find Complimentary Ticket", "Reprint Receipt", "Create Refund Form", 
-        "Create Season Application Form", "Print Terms and Conditions"
+        { label: "Complimentary Ticket", path: "/tasks/comp-ticket" },
+        { label: "Reprint Receipt", path: "/tasks/reprint" },
+        { label: "Create Refund Form", path: "/tasks/refund-form" },
+        { label: "Create Application Form", path: "/tasks/app-form" },
+        { label: "Print T&Cs", path: "/tasks/terms" }
       ] 
     },
     { 
       label: "System", 
       icon: <Settings size={16} />, 
       children: [
-        "Run Jobs (Auto)", "Auto Login", "Administrator Functions", 
-        "Manage Carpark", "Manage Users", "Add User", "Launch on Windows Startup"
+        { label: "Run Jobs (Auto)", path: "/system/jobs" },
+        { label: "Auto Login", path: "/system/autologin" },
+        { label: "Admin Functions", path: "/system/admin" },
+        { label: "Manage Carpark", path: "/system/manage-carpark" },
+        { label: "Manage Users", path: "/system/manage-users" },
+        { label: "Add User", path: "/system/add-user" },
+        { label: "Windows Startup", path: "/system/startup" }
       ] 
     },
     { label: "About", icon: <Info size={16} />, path: "/about" },
@@ -100,7 +133,6 @@ const Navbar = ({ onLogout }) => {
               onMouseEnter={() => setActiveMenu(item.label)}
               onMouseLeave={() => setActiveMenu(null)}
             >
-              {/* Top-Level Item */}
               {!hasChildren ? (
                 <Link 
                   to={item.path} 
@@ -132,7 +164,6 @@ const Navbar = ({ onLogout }) => {
                 </button>
               )}
 
-              {/* Mega-Dropdown Logic */}
               <AnimatePresence>
                 {hasChildren && activeMenu === item.label && (
                   <motion.div
@@ -146,17 +177,26 @@ const Navbar = ({ onLogout }) => {
                     `}
                   >
                     <div className={`grid ${isLargeMenu ? 'grid-cols-2' : 'grid-cols-1'} gap-1`}>
-                      {item.children.map((child, cIdx) => (
-                        <Link 
-                          key={cIdx}
-                          to={`/${item.label.toLowerCase()}/${child.toLowerCase().replace(/\s+/g, '-')}`}
-                          onClick={() => setActiveMenu(null)}
-                          className="group flex items-center justify-between w-full text-left px-4 py-2.5 text-[12px] text-slate-300 hover:text-white hover:bg-blue-600/20 rounded-xl transition-all font-medium"
-                        >
-                          <span className="truncate">{child}</span>
-                          <div className="w-1.5 h-1.5 rounded-full bg-blue-400 opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_8px_#60a5fa]" />
-                        </Link>
-                      ))}
+                      {item.children.map((child, cIdx) => {
+                        const isChildActive = location.pathname === child.path;
+                        return (
+                          <Link 
+                            key={cIdx}
+                            to={child.path}
+                            onClick={() => setActiveMenu(null)}
+                            className={`group flex items-center justify-between w-full text-left px-4 py-2.5 text-[12px] rounded-xl transition-all font-medium
+                              ${isChildActive 
+                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' 
+                                : 'text-slate-300 hover:text-white hover:bg-blue-600/20'}
+                            `}
+                          >
+                            <span className="truncate">{child.label}</span>
+                            <div className={`w-1.5 h-1.5 rounded-full transition-all shadow-[0_0_8px_#60a5fa] 
+                              ${isChildActive ? 'bg-white scale-125' : 'bg-blue-400 opacity-0 group-hover:opacity-100'}
+                            `} />
+                          </Link>
+                        );
+                      })}
                     </div>
                   </motion.div>
                 )}

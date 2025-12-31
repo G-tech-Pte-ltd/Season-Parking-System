@@ -94,7 +94,7 @@ const CarparkDetails = () => {
       <main className="max-w-[1600px] mx-auto relative z-10">
         <header className="mb-8 flex justify-between items-end">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Carpark Master List</h1>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Carpark Details</h1>
             <p className="text-slate-500 font-medium">Global search and allocation management.</p>
           </motion.div>
           

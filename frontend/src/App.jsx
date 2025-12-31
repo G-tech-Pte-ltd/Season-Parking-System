@@ -4,6 +4,8 @@ import HomePage from "./components/HomePage";
 import Navbar from "./components/NavBar";
 import AboutPage from "./components/AboutPage";
 import CarparkDetails from "./components/CarParkDetails";
+import NewSeason from "./components/NewSeason";
+import EditSeasonPage from "./components/EditSeasonPage";
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => (
@@ -29,12 +31,18 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage user={user} />} />
             
-            {/* 3. New Carpark Details Route */}
+            {/* Carpark Section */}
             <Route path="/carpark/carpark-details" element={<CarparkDetails />} />
             
-            <Route path="/season/new" element={<PlaceholderPage title="New Season" />} />
-            <Route path="/reports/revenue" element={<PlaceholderPage title="Revenue Report" />} />
+            {/* Season Section - Align with Navbar Logic */}
+            <Route path="/season/new" element={<NewSeason />} />
+            <Route path="/season/edit" element={<EditSeasonPage />} /> {/* Corrected Component */}
+            <Route path="/season/renewal" element={<PlaceholderPage title="Season Renewal" />} />
+            <Route path="/season/multi-renewal" element={<PlaceholderPage title="Multi-Renewal" />} />
+            
+            {/* System Section */}
             <Route path="/system/manage-users" element={<PlaceholderPage title="Manage Users" />} />
+            
             <Route path="/about" element={<AboutPage />} />
           </Routes>
         </main>
