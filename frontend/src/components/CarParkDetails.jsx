@@ -237,65 +237,85 @@ const CarparkDetails = () => {
         </motion.section>
       </main>
 
-      {/* Animated Modal */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }} 
-              animate={{ opacity: 1, scale: 1, y: 0 }} 
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-white rounded-[2.5rem] w-full max-w-4xl shadow-2xl p-10 overflow-y-auto max-h-[90vh]"
-            >
-              <div className="flex justify-between items-center mb-8">
-                <h2 className="text-3xl font-black text-slate-900 tracking-tight">{editingId ? "Update Carpark" : "Add New Carpark"}</h2>
-                <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X/></button>
-              </div>
+    {/* Animated Modal */}
+    <AnimatePresence>
+    {isModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md">
+        <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }} 
+            animate={{ opacity: 1, scale: 1, y: 0 }} 
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="bg-white rounded-[2.5rem] w-full max-w-4xl shadow-2xl p-10 overflow-y-auto max-h-[90vh]"
+        >
+            <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight">{editingId ? "Update Carpark" : "Add New Carpark"}</h2>
+            <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X/></button>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="md:col-span-2">
-                  <label className="text-[10px] font-black uppercase text-slate-400 ml-1">1. Carpark Name</label>
-                  <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none focus:border-blue-400" 
-                    value={formData.carpark} onChange={(e) => setFormData({...formData, carpark: e.target.value})} />
-                </div>
-                <div>
-                  <label className="text-[10px] font-black uppercase text-slate-400 ml-1">2. Owner</label>
-                  <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none focus:border-blue-400" 
-                    value={formData.owner} onChange={(e) => setFormData({...formData, owner: e.target.value})} />
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Carpark Name */}
+            <div className="md:col-span-2">
+                <label className="text-[10px] font-black uppercase text-slate-400 ml-1">1. Carpark Name</label>
+                <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none focus:border-blue-400 font-bold" 
+                value={formData.carpark} onChange={(e) => setFormData({...formData, carpark: e.target.value})} />
+            </div>
 
-                <div className="bg-blue-50/50 p-6 rounded-3xl col-span-1 md:col-span-3 grid grid-cols-2 md:grid-cols-5 gap-4">
-                   <div className="col-span-full mb-2 font-bold text-blue-600 text-[10px] uppercase tracking-widest">Lot Allocation Metrics</div>
-                   {['totalLots', 'carLots', 'motorcycleLots', 'heavyVehicleLots', 'loadingBayLots'].map((field, i) => (
-                     <div key={field}>
-                        <label className="text-[10px] font-bold text-slate-400 uppercase">{i+3}. {field.replace('Lots', '')}</label>
-                        <input type="number" className="w-full bg-white border border-blue-100 rounded-xl px-3 py-2 mt-1" value={formData[field]} onChange={(e) => setFormData({...formData, [field]: e.target.value})} />
-                     </div>
-                   ))}
-                </div>
+            {/* Owner */}
+            <div>
+                <label className="text-[10px] font-black uppercase text-slate-400 ml-1">2. Owner</label>
+                <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none focus:border-blue-400 font-bold" 
+                value={formData.owner} onChange={(e) => setFormData({...formData, owner: e.target.value})} />
+            </div>
 
-                <div>
-                  <label className="text-[10px] font-black uppercase text-slate-400 ml-1">8. Total Units</label>
-                  <input type="number" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none" value={formData.totalUnits} onChange={(e) => setFormData({...formData, totalUnits: e.target.value})} />
-                </div>
-                <div>
-                  <label className="text-[10px] font-black uppercase text-slate-400 ml-1">9. Admin Incharge</label>
-                  <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none" value={formData.adminIncharge} onChange={(e) => setFormData({...formData, adminIncharge: e.target.value})} />
-                </div>
-                <div>
-                  <label className="text-[10px] font-black uppercase text-slate-400 ml-1">10. OS Incharge</label>
-                  <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none" value={formData.osIncharge} onChange={(e) => setFormData({...formData, osIncharge: e.target.value})} />
-                </div>
-              </div>
+            {/* NEW: Carpark Address */}
+            <div className="md:col-span-2">
+                <label className="text-[10px] font-black uppercase text-slate-400 ml-1">3. Carpark Address</label>
+                <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none focus:border-blue-400" 
+                placeholder="Enter full block and street address..."
+                value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} />
+            </div>
 
-              <div className="mt-10 flex gap-4">
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} className="flex-grow bg-blue-600 text-white font-black py-4 rounded-2xl uppercase tracking-widest text-xs shadow-xl shadow-blue-100 transition-all hover:bg-blue-700">Confirm Record</motion.button>
-                <button onClick={() => setIsModalOpen(false)} className="px-8 text-slate-400 font-bold uppercase text-xs hover:text-slate-600">Cancel</button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+            {/* NEW: IP Address */}
+            <div>
+                <label className="text-[10px] font-black uppercase text-slate-400 ml-1">4. IP Address</label>
+                <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none focus:border-emerald-400 font-mono text-sm" 
+                placeholder="192.168.x.x"
+                value={formData.ipAddress} onChange={(e) => setFormData({...formData, ipAddress: e.target.value})} />
+            </div>
+
+            {/* Lot Allocation Metrics Section */}
+            <div className="bg-blue-50/50 p-6 rounded-3xl col-span-1 md:col-span-3 grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div className="col-span-full mb-2 font-bold text-blue-600 text-[10px] uppercase tracking-widest">Lot Allocation Metrics</div>
+                {['totalLots', 'carLots', 'motorcycleLots', 'heavyVehicleLots', 'loadingBayLots'].map((field, i) => (
+                    <div key={field}>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase">{i+5}. {field.replace('Lots', '')}</label>
+                    <input type="number" className="w-full bg-white border border-blue-100 rounded-xl px-3 py-2 mt-1" value={formData[field]} onChange={(e) => setFormData({...formData, [field]: e.target.value})} />
+                    </div>
+                ))}
+            </div>
+
+            <div>
+                <label className="text-[10px] font-black uppercase text-slate-400 ml-1">10. Total Units</label>
+                <input type="number" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none" value={formData.totalUnits} onChange={(e) => setFormData({...formData, totalUnits: e.target.value})} />
+            </div>
+            <div>
+                <label className="text-[10px] font-black uppercase text-slate-400 ml-1">11. Admin Incharge</label>
+                <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none" value={formData.adminIncharge} onChange={(e) => setFormData({...formData, adminIncharge: e.target.value})} />
+            </div>
+            <div>
+                <label className="text-[10px] font-black uppercase text-slate-400 ml-1">12. OS Incharge</label>
+                <input className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-3 mt-1 outline-none" value={formData.osIncharge} onChange={(e) => setFormData({...formData, osIncharge: e.target.value})} />
+            </div>
+            </div>
+
+            <div className="mt-10 flex gap-4">
+            <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSave} className="flex-grow bg-blue-600 text-white font-black py-4 rounded-2xl uppercase tracking-widest text-xs shadow-xl shadow-blue-100 transition-all hover:bg-blue-700">Confirm Record</motion.button>
+            <button onClick={() => setIsModalOpen(false)} className="px-8 text-slate-400 font-bold uppercase text-xs hover:text-slate-600">Cancel</button>
+            </div>
+        </motion.div>
+        </div>
+    )}
+    </AnimatePresence>
     </div>
   );
 };

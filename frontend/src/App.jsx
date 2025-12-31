@@ -7,6 +7,11 @@ import CarparkDetails from "./components/CarParkDetails";
 import NewSeason from "./components/NewSeason";
 import EditSeasonPage from "./components/EditSeasonPage";
 import RenewalSeason from "./components/RenewalSeason";
+import ChangeVehiclePage from "./components/ChangeVehiclePage";
+import TerminateSeasonPage from "./components/TerminateSeasonPage";
+import ExpiredSeasonsPage from "./components/ExpiredSeasonPage";
+import SeasonMasterPage from "./components/SeasonMaster";
+import SeasonHistory from "./components/SeasonHistory";
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => (
@@ -40,6 +45,11 @@ function App() {
             <Route path="/season/edit" element={<EditSeasonPage />} />
             <Route path="/season/renewal" element={<RenewalSeason />} />
             <Route path="/season/multi-renewal" element={<PlaceholderPage title="Multi-Renewal" />} />
+            <Route path="/season/change-vehicle" element={<ChangeVehiclePage />} />
+            <Route path="/season/terminate" element={<TerminateSeasonPage />} />
+            <Route path="/season/expiring" element={<ExpiredSeasonsPage />} />
+            <Route path="/season/master" element={<SeasonMasterPage />} />
+            <Route path="/season/history" element={<SeasonHistory />} />
             
             {/* System Section */}
             <Route path="/system/manage-users" element={<PlaceholderPage title="Manage Users" />} />
