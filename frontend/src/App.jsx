@@ -12,6 +12,10 @@ import TerminateSeasonPage from "./components/TerminateSeasonPage";
 import ExpiredSeasonsPage from "./components/ExpiredSeasonPage";
 import SeasonMasterPage from "./components/SeasonMaster";
 import SeasonHistory from "./components/SeasonHistory";
+import GiroUpdate from "./components/GiroUpdate";
+import GiroRenewal from "./components/GiroRenewal";
+import UpdateDDAList from "./components/GiroDDA";
+import GiroHistory from "./components/GiroHistory";
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => (
@@ -50,7 +54,13 @@ function App() {
             <Route path="/season/expiring" element={<ExpiredSeasonsPage />} />
             <Route path="/season/master" element={<SeasonMasterPage />} />
             <Route path="/season/history" element={<SeasonHistory />} />
-            
+
+            {/* Giro Section - Align with Navbar Logic */}
+            <Route path="/giro/approve-reject" element={<GiroUpdate />} />
+            <Route path="/giro/renewal" element={<GiroRenewal />} />
+            <Route path="/giro/update-dda" element={<UpdateDDAList />} />
+            <Route path="/giro/history" element={<GiroHistory />} />
+
             {/* System Section */}
             <Route path="/system/manage-users" element={<PlaceholderPage title="Manage Users" />} />
             
